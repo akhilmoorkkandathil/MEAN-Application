@@ -28,11 +28,20 @@ getPost(id:string){
   return this.http.get<{message:string,posts:Post}>(this.baseUrl+"/"+id)
 }
 
-  addPost(title:string,content:string){
-    const newPost:Post = { id:'',title:title,content:content}
-    this.http.post<{message:string,postId:string}>(this.baseUrl, newPost)
+  addPost(title:string,content:string,image:File){
+    const postData = new FormData();
+    postData.append("title",title);
+    postData.append("content",content);
+    postData.append("image",image,title)
+    this.http.post<{message:string,post:Post}>(this.baseUrl, postData)
     .subscribe((resData)=>{
-      const postID = resData.postId
+      const newPost:Post = {
+        id:resData.post.id,
+        title:title,
+        content:content,
+        imagePath:resData.post.imagePath
+      }
+      const postID = resData.post.id
       newPost.id = postID
       this.posts.push(newPost);
       this.postUpdated.next([...this.posts])
@@ -41,7 +50,7 @@ getPost(id:string){
   }
   
   updatePost(id: string, title:string, content:string){
-    const post:Post = {id:id,title:title,content:content}
+    const post:Post = {id:id,title:title,content:content,imagePath:null}
     this.http.put(this.baseUrl+"/"+id, post)
     .subscribe((response)=>{
         const updatedPosts = [...this.posts];

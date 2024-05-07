@@ -1,9 +1,23 @@
 
-mat-for-field,
+mat-form-field,
 textarea{
     width: 100%;
 }
 
 mat-spinner{
     margin: auto;
+}
+
+.buttonArr{
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+
+.image-preview{
+    height: 5rem;
+    margin: 0 1rem;
+}
+
+.image-preview img{
+    height: 100%;
 }

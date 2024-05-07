@@ -6,7 +6,18 @@
 .Info-text{
     align-items: center;
 }
+.textColor{
+    color:rgb(132, 49, 157);
+    font-size: medium;
+}
 
 mat-spinner{
     margin: auto;
+}
+.post-image{
+    width: 100%;
+}
+
+.post-image img{
+width: 50%;
 }
