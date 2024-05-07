@@ -25,6 +25,63 @@ const storage = multer.diskStorage({
     }
 })
 
+
+router.get('',async(req,res,next)=>{
+    const pageSize = +req.query.pageSize;
+    const currentPage = +req.query.currentPage;
+    console.log(pageSize,currentPage);
+    let postQuery=postModel.find();
+    let fetchedPosts;
+    if(pageSize && currentPage){
+        postQuery=postModel.find()
+        .skip(pageSize*(currentPage-1))
+        .limit(pageSize)
+    }
+    postQuery
+    .then(async(documents)=>{
+        fetchedPosts = documents;
+        console.log(fetchedPosts);
+        return await postModel.find().count()
+    })
+    .then(count=>{
+        res.status(200).json({
+            message:"Post fetched successfully",
+            posts:fetchedPosts.map(obj=>{
+                return {
+                    id:obj._id,
+                    title:obj.title,
+                    content:obj.content,
+                    imagePath:obj.imagePath
+                }
+            }),
+            maxPosts:count
+
+        })
+    })
+})
+
+router.get('/:id',async(req,res,next)=>{
+    const postId = req.params.id;
+    const posts = await postModel.find({ _id:postId });
+    const obj = posts.map((obj) => {
+        return {
+            id: obj._id,
+            title: obj.title,
+            content: obj.content,
+            imagePath:obj.imagePath
+        };
+    });
+    if (posts) {
+        res.status(200).json({
+            message:"Post fetched successfully",
+            posts: obj[0]
+            })
+    }else{
+        return res.status(404).json({ message: "Post not found!!!" }); 
+    }
+    
+})
+
 router.post("",multer({storage:storage}).single("image"),(req,res)=>{
     const url = req.protocol + '://'+req.get("host")
     const post = new postModel({
@@ -44,47 +101,21 @@ router.post("",multer({storage:storage}).single("image"),(req,res)=>{
     })
     
 })
-router.get('',async(req,res,next)=>{
-    const posts = await postModel.find()
-    res.status(200).json({
-        message:"Post fetched successfully",
-        posts:posts.map(obj=>{
-            return {
-                id:obj._id,
-                title:obj.title,
-                content:obj.content,
-                imagePath:obj.imagePath
-            }
-        })
-    })
-})
 
-router.get('/:id',async(req,res,next)=>{
-    const postId = req.params.id;
-    const posts = await postModel.find({ _id:postId });
-    const obj = posts.map((obj) => {
-        return {
-            id: obj._id,
-            title: obj.title,
-            content: obj.content
-        };
-    });
-    if (posts) {
-        res.status(200).json({
-            message:"Post fetched successfully",
-            posts: obj[0]
-            })
-    }else{
-        return res.status(404).json({ message: "Post not found!!!" }); 
-    }
-    
-})
+router.put(
+    "/:id",
+    multer({storage:storage}).single("image"),
+    async(req,res,next)=>{
+        let imagePath = req.body.imagePath;
 
-router.put("/:id",async(req,res,next)=>{
+        if(req.file){
+            const url = req.protocol + '://'+req.get("host");
+            imagePath = url+"/images/" + req.file.filename
+        }
     const postId = req.params.id;
     await postModel.findOneAndUpdate(
         { _id: postId }, 
-        { $set: { title: req.body.title, content: req.body.content } }
+        { $set: { title: req.body.title, content: req.body.content,imagePath:imagePath } }
       );
     res.status(200).json({ message: "Post update successfully" });
 })

@@ -1,0 +1,42 @@
+@if(false){
+    <mat-spinner></mat-spinner>
+}@else {
+    <mat-card>
+        <h1>Sign Up</h1>
+        <form (submit)="onSubmit()" >
+            <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input 
+                matInput 
+                type="text">
+             <mat-error *ngIf="">Please enter Username</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input 
+                matInput 
+                type="email">
+             <mat-error *ngIf="">Please enter email</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>password</mat-label>
+                <input 
+                matInput
+                type="password"
+                >
+                <mat-error  *ngIf="">Please enter valid Password</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label> Confirm password</mat-label>
+                <input 
+                matInput
+                type="password"
+                >
+                <mat-error  *ngIf="">Please enter co Password</mat-error>
+            </mat-form-field><br>
+            <button mat-raised-button color="accent" type="submit">Sign Up</button>
+    </form>
+    </mat-card>
+    
+}
+

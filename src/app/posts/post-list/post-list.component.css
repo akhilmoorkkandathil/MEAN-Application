@@ -20,4 +20,9 @@ mat-spinner{
 
 .post-image img{
 width: 50%;
+height: 25rem;
+}
+
+mat-paginator{
+    margin-top: 1rem;
 }

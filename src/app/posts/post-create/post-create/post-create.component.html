@@ -6,11 +6,11 @@
         <form [formGroup]="form" (submit)="onSavePost()" >
         
             <mat-form-field>
+                <mat-label>Post Title</mat-label>
                 <input 
                 matInput 
                 type="text" 
-                formControlName="title"
-                placeholder="Post Title">
+                formControlName="title">
              <mat-error *ngIf="form.get('title').invalid">Please enter post content</mat-error>
             </mat-form-field>
 
@@ -21,12 +21,14 @@
             <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
                 <img [src]="imagePreview" [alt]="form.value.title">
             </div>
+            
             <mat-form-field>
+                <mat-label>Write content here...</mat-label>
                 <textarea 
                 matInput 
                 rows="4"
                 formControlName="content"
-                placeholder="Write content here..." ></textarea>
+                 ></textarea>
                 <mat-error  *ngIf="form.get('content').invalid">Please enter post content</mat-error>
                 
                 <button mat-raised-button color="accent" type="submit">Save Post</button>
