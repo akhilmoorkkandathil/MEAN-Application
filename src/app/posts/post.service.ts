@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class PostService {
   private posts:Post[]= []
   private postUpdated = new Subject<{posts:Post[],postCount:number}>()
-  baseUrl = 'http://localhost:4000/api/posts'
+  public baseUrl = 'http://localhost:4000/api/posts'
 
   constructor( private http:HttpClient, private router:Router){}
   getPosts(postsPerPage:number,currentPage:number){

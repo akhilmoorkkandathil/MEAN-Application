@@ -3,36 +3,55 @@
 }@else {
     <mat-card>
         <h1>Sign Up</h1>
-        <form (submit)="onSubmit()" >
+        <form (submit)="onSignup(signupform)" #signupform="ngForm" >
             <mat-form-field>
                 <mat-label>Username</mat-label>
                 <input 
                 matInput 
-                type="text">
-             <mat-error *ngIf="">Please enter Username</mat-error>
+                type="text"
+                name="username"
+                ngModel
+                #usernameInput="ngModel"
+                required
+                >
+             <mat-error *ngIf="usernameInput.invalid">Please enter Username</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input 
                 matInput 
-                type="email">
-             <mat-error *ngIf="">Please enter email</mat-error>
+                type="email"
+                name="email"
+                ngModel
+                #emailInput="ngModel"
+                required
+                email
+                >
+             <mat-error *ngIf="emailInput.invalid">Please enter email</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>password</mat-label>
                 <input 
                 matInput
                 type="password"
+                name="password"
+                ngModel
+                #passwordInput="ngModel"
+                required
                 >
-                <mat-error  *ngIf="">Please enter valid Password</mat-error>
+                <mat-error  *ngIf="passwordInput.invalid">Please enter valid Password</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label> Confirm password</mat-label>
                 <input 
                 matInput
                 type="password"
+                name="confirmpassword"
+                ngModel
+                #confirmpasswordInput="ngModel"
+                required
                 >
-                <mat-error  *ngIf="">Please enter co Password</mat-error>
+                <mat-error  *ngIf="confirmpasswordInput.invalid">Please enter co Password</mat-error>
             </mat-form-field><br>
             <button mat-raised-button color="accent" type="submit">Sign Up</button>
     </form>

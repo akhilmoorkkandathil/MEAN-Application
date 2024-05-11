@@ -3,6 +3,8 @@ const router = express.Router();
 const postModel = require('../models/post');
 const multer = require("multer");
 
+const checkAuth = require('../middleware/check-auth')
+
 const MIME_TYPE_MAP = {
     'image/png':'png',
     'image/jpeg':'jpeg',
@@ -29,7 +31,6 @@ const storage = multer.diskStorage({
 router.get('',async(req,res,next)=>{
     const pageSize = +req.query.pageSize;
     const currentPage = +req.query.currentPage;
-    console.log(pageSize,currentPage);
     let postQuery=postModel.find();
     let fetchedPosts;
     if(pageSize && currentPage){
@@ -40,7 +41,6 @@ router.get('',async(req,res,next)=>{
     postQuery
     .then(async(documents)=>{
         fetchedPosts = documents;
-        console.log(fetchedPosts);
         return await postModel.find().count()
     })
     .then(count=>{

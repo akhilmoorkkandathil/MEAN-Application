@@ -4,22 +4,33 @@
 }@else {
     <mat-card>
         <h1>Login</h1>
-        <form (submit)="onSubmit()" >
+        <form (submit)="onLogin(loginForm)" #loginForm="ngForm" >
         
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input 
                 matInput 
-                type="email">
-             <mat-error *ngIf="">Please enter email</mat-error>
+                type="email"
+                name="email"
+                ngModel
+                #emailInput="ngModel"
+                required
+                email
+                >
+
+             <mat-error *ngIf="emailInput.invalid">Please enter email</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>password</mat-label>
                 <input 
                 matInput
                 type="password"
+                name="password"
+                ngModel
+                #passwordInput="ngModel"
+                required
                 >
-                <mat-error  *ngIf="">Please enter valid Password</mat-error>
+                <mat-error  *ngIf="passwordInput.invalid">Please enter valid Password</mat-error>
             </mat-form-field><br>
             <button mat-raised-button color="accent" type="submit">Login</button>
     </form>
